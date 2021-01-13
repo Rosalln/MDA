@@ -1,7 +1,7 @@
 
 # NIFI + ELK Task 
 
-Display in a map the emergency calls from the following API using NIFI and ELK:
+Display in a map the crimes registered from the following API using NIFI and ELK:
 
 https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9
 
@@ -29,8 +29,57 @@ The NIFI template is available in MDA/NIFI_ELK_Task/Tarea2.xml
 
 ### KIBANA
 
-Once the data is in elasticsearch, in order to deal with to have the variable "location" as a geo_point variable the following reindex is done:
+Steps to create the dashboard once the data is in elasticsearch:
 
+1. Create a new index with the desired geo_point property: 
+
+```
+PUT delitos_reindex  
+{  
+  "mappings": {  
+      "properties": {  
+        "location": {  
+          "type": "geo_point"  
+        }  
+      }  
+    }  
+  }
+ ```
+2. Use reindex to copy the content to the new index:
+ 
+ ```
+ POST _reindex
+{
+  "source": {
+    "index": "delitos"
+  },
+  "dest": {
+    "index": "delitos_reindex"
+  },
+  "script": {
+    "source": "ctx._source.location = ['lat': ctx._source.latitude, 'lon': ctx._source.longitude]; "
+  }
+}
+```
+3. Create an index pattern from the new index (delitos_reindex). 
+
+4. Create a new visualization: Coordinate Map 
+
+#### Dashboard
+
+
+
+
+
+
+
+
+
+ 
+  
+
+  
+ 
 
 
 

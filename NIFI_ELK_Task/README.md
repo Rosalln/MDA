@@ -67,7 +67,7 @@ PUT delitos_reindex
 
 #### Dashboard
 
-
+![alt text](https://github.com/Rosalln/MDA/blob/master/NIFI_ELK_Task/Dashboard.png)
 
 
 

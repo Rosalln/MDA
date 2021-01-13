@@ -18,6 +18,8 @@ The docker infrastructure used is:
 | Kibana | 5601 | http://localhost:5601 |
 |:----:|------|------------------------|
 
+The docker-compose file is available in MDA/NIFI_ELK_Task/docker-compose.yml
+
 
 ### NIFI Ingestion 
 

@@ -1,0 +1,50 @@
+version: '2'
+
+# Infrastructure required for the "Big Data Architectures for Investment Banking" course.
+# Authors: Roberto López & Esteban Chiner
+services:
+  
+  nifi:
+    image: apache/nifi:latest
+    ports:
+      - '8877:8080'
+      
+  # Elasticsearch: Data Storage and Search Engine
+  elasticsearch:
+    image: 'elasticsearch:7.3.0'
+    hostname: elasticsearch
+    container_name: elasticsearch_2
+    ports:
+      - '9200:9200'
+      - '9300:9300'
+    environment:
+      - discovery.type=single-node
+      
+
+  # Kibana: Elasticsearch Dashboarding
+  kibana:
+    image: 'kibana:7.3.0'
+    hostname: kibana
+    container_name: kibana_2
+    ports:
+      - '5601:5601'
+    environment:
+      - elasticsearch.hosts=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+      
+  
+  # cAdvisor: Docker Monitor
+  monitor:
+    image: 'google/cadvisor:latest'
+    hostname: monitor
+    ports:
+      - '8080:8080'
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+
+
